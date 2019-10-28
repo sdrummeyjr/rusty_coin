@@ -1,0 +1,8 @@
+/target
+**/*.rs.bk
+Cargo.lock
+.idea/vcs.xml
+.idea/rusty_coin.iml
+.idea/modules.xml
+.idea/misc.xml
+.idea/$PRODUCT_WORKSPACE_FILE$
