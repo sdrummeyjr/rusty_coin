@@ -1,7 +1,7 @@
 use crate::rates::Rate;
 
-//! Cash Flow
-/// Functions for calculation cashflow-related financial and accounting analysis
+/// Cash Flow
+/// Functions for calculation cash flow-related financial and accounting analysis
 
 
 /// Returns the difference between the present value of cash inflows and the present value of cash

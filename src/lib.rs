@@ -2,6 +2,7 @@ mod finance_mod;
 
 use finance_mod::rates;
 use finance_mod::cashflow;
+use finance_mod::value;
 
 
 #[test]
@@ -16,5 +17,16 @@ fn test_per_rate() {
     let rate = rates::Rate{rate: 5.0};
     let periods = 12;
 
-    assert_eq!(rate.periodic_rate(periods), 0.16103667237399422)
+    assert_eq!(rate.periodic_rate(periods).rate, 0.16103667237399422)
+}
+
+#[test]
+fn test_values() {
+    let val_amount = 5.0;
+    let val_currency = value::Currency::USD;
+
+    let new_value = value::Value{currency: val_currency, amount: val_amount};
+    println!("{}", new_value);
+
+    assert_eq!(new_value.currency.symbol(), "$")
 }

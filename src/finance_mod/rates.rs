@@ -1,5 +1,8 @@
+use crate::value::Value;
 use std::fmt;
 use std::fmt::Error;
+//use crate::finance_mod::value::Value;
+
 
 // https://doc.rust-lang.org/std/default/trait.Default.html
 enum Rounding {
@@ -42,26 +45,32 @@ impl Rate {
         Rate { rate: new_rate }
     }
 
-
-    pub fn periodic_rate(&self, num_periods: usize) -> f64 {
-        ((1.0 + self.rate as f64).powf(1.0 / num_periods as f64) - 1.0)
+    // todo change from returning f64 to returning Result<Rate, Error>
+    pub fn periodic_rate(&self, num_periods: usize) -> Rate {
+        Rate::new(((1.0 + self.rate as f64).powf(1.0 / num_periods as f64) - 1.0))
     }
 
 
-    pub fn effective_rate(&self, num_periods: usize) -> f64 {
+    pub fn effective_rate(&self, num_periods: usize) -> Rate {
         if num_periods <= 0 {
             // https://doc.rust-lang.org/std/macro.panic.html
             panic!("The number of periods must be greater than 0. Got {}", num_periods)
         }
-        (1.0 + self.rate / num_periods as f64).powf(num_periods as f64) - 1.0
+        Rate::new((1.0 + self.rate / num_periods as f64).powf(num_periods as f64) - 1.0)
     }
 
 
-    pub fn nominal_rate(&self, num_periods: usize) -> f64 {
+    pub fn nominal_rate(&self, num_periods: usize) -> Rate {
         if num_periods <= 0 {
             // https://doc.rust-lang.org/std/macro.panic.html
             panic!("The number of periods must be greater than 0. Got {}", num_periods)
         }
-        num_periods as f64 * ((self.rate + 1.0).powf(1.0 / num_periods as f64) - 1.0)
+        Rate::new(num_periods as f64 *
+            ((self.rate + 1.0).powf(1.0 / num_periods as f64) - 1.0))
     }
+
+    pub fn exchange_rate(&self, start_cur_amount: Value, new_cur_amount: Value) -> Rate {
+        Rate::new(start_cur_amount.amount / new_cur_amount.amount)
+    }
+
 }
