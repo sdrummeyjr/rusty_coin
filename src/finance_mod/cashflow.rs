@@ -1,5 +1,6 @@
 use crate::rates::Rate;
 
+//! Cash Flow
 /// Functions for calculation cashflow-related financial and accounting analysis
 
 
