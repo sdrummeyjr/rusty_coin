@@ -5,7 +5,7 @@ use std::fmt::Error;
 
 
 // https://doc.rust-lang.org/std/default/trait.Default.html
-enum Rounding {
+enum Rounding {  // todo change to precision
     One,
     Two,
     Three,
@@ -50,7 +50,6 @@ impl Rate {
         Rate::new(((1.0 + self.rate as f64).powf(1.0 / num_periods as f64) - 1.0))
     }
 
-
     pub fn effective_rate(&self, num_periods: usize) -> Rate {
         if num_periods <= 0 {
             // https://doc.rust-lang.org/std/macro.panic.html
@@ -58,7 +57,6 @@ impl Rate {
         }
         Rate::new((1.0 + self.rate / num_periods as f64).powf(num_periods as f64) - 1.0)
     }
-
 
     pub fn nominal_rate(&self, num_periods: usize) -> Rate {
         if num_periods <= 0 {
