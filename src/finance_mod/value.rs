@@ -1,30 +1,8 @@
 use crate::rates::Rate;
-use crate::currency::CurrCode;
+use crate::currency::{CurrCode, Currency};
 use std::fmt;
-use crate::finance_mod::currency::CurrCode;
+//use crate::finance_mod::currency::CurrCode;
 
-
-// have default to USD
-// add crypto
-//pub enum Currency {
-//    USD,
-//    GBP,
-//    EUR,
-//    JPY,
-//}
-//
-//// https://stevedonovan.github.io/rust-gentle-intro/2-structs-enums-lifetimes.html#simple-enums
-//impl Currency {
-//    pub fn symbol(&self) -> &'static str {
-//        match self {
-//            Currency::USD => "$",
-//            Currency::GBP => "£",
-//            Currency::EUR => "€",
-//            Currency::JPY => "¥",
-//        }
-//    }
-//
-//}
 
 pub struct Value {
     pub currency_code: CurrCode,
@@ -33,7 +11,7 @@ pub struct Value {
 
 impl fmt::Display for Value {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}{:.2}", self.currency.symbol(), self.amount)
+        write!(f, "{}{:.2}", self.currency_code.currency().symbol, self.amount)
     }
 }
 
@@ -44,7 +22,7 @@ impl Value {
 
     pub fn convert(&self, start_cur_amount: Value, conversion_rate: Rate) -> Value {
         Value::new(start_cur_amount.amount * conversion_rate.rate,
-                   start_cur_amount.currency)
+                   start_cur_amount.currency_code)
     }
 
 }
