@@ -1,6 +1,7 @@
+// SOURCE: https://www.xe.com/symbols.php
 
-
-//SOURCE: https://www.xe.com/symbols.php
+// NOTE: The primary type is the CurrCode as it's required by value::Value. With the CurrCode, you
+// can then use the currency() method to obtain the Currency information for the respective code
 
 #[derive(Debug, PartialOrd, PartialEq)]
 pub struct Currency {
@@ -9,7 +10,6 @@ pub struct Currency {
     pub code: CurrCode,
     pub symbol: &'static str,
 }
-
 
 impl Currency {
     pub fn new(country: &'static str, curr_type: CurrType, code: CurrCode) -> Currency {
@@ -23,11 +23,8 @@ impl Currency {
 
 }
 
-
 // https://stevedonovan.github.io/rust-gentle-intro/2-structs-enums-lifetimes.html#simple-enums
-
 impl CurrCode {
-
     pub fn currency(&self) -> Currency {
         match self {
             CurrCode::ALL => Currency { country: "Albania", curr_type: CurrType::Lek, code: CurrCode::ALL, symbol: "Lek" },

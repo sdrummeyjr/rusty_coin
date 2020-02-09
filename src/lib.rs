@@ -4,6 +4,9 @@ use finance_mod::rates;
 use finance_mod::cashflow;
 use finance_mod::value;
 use finance_mod::currency;
+use finance_mod::fin_ratios;
+//use crate::finance_mod::currency::CurrCode::USD;
+
 
 #[test]
 fn test_currencies() {
@@ -55,4 +58,15 @@ fn test_values() {
     println!("{}", new_value);
 
     assert_eq!(new_value.currency_code.currency().symbol, "$")
+}
+
+
+#[test]
+fn test_fin_ratios() {
+    let investment = value::Value::new(100.00, currency::CurrCode::USD);
+    let sell_price = value::Value::new(150.00, currency::CurrCode::USD);
+    let roi = fin_ratios::return_on_investment(&sell_price, &investment);
+    let new_prec = rates::Rate{rate: roi.rate, precision: rates::Precision::One};
+    println!("The ROI for investing at $100 and selling at $150 = {}", new_prec);
+    assert_eq!(roi.rate, 0.5)
 }

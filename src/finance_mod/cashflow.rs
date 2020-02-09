@@ -20,7 +20,6 @@ pub fn net_present_value(rate: Rate, values: Vec<f64>) -> f64 {
     npv
 }
 
-
 pub fn discounted_net_present_value(rate: Rate, values: Vec<f64>) -> f64 {
     let dnpv: f64 = values.iter()
         .enumerate()

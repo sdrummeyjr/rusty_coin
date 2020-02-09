@@ -7,6 +7,7 @@ use std::fmt::Error;
 
 // https://doc.rust-lang.org/std/default/trait.Default.html
 
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum Precision {  // todo change to precision
     One,
     Two,
@@ -14,7 +15,6 @@ pub enum Precision {  // todo change to precision
     Four,
     Five,
 }
-
 
 impl Precision {
     fn set_round(&self) -> &str {
@@ -29,11 +29,11 @@ impl Precision {
 }
 
 
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub struct Rate {
     pub rate: f64,
     pub precision: Precision
 }
-
 
 impl fmt::Display for Rate {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -46,7 +46,6 @@ impl fmt::Display for Rate {
         }
     }
 }
-
 
 impl Rate {
     pub fn new(new_rate: f64) -> Rate {
@@ -81,6 +80,9 @@ impl Rate {
     pub fn exchange_rate(&self, start_cur_amount: Value, new_cur_amount: Value) -> Rate {
         Rate::new(start_cur_amount.amount / new_cur_amount.amount)
     }
+
+//    pub fn internal_rate_of_return()
+
 
 }
 
