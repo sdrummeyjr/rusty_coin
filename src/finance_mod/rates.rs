@@ -39,15 +39,20 @@ impl Rate {
         }
     }
 
+
     pub fn rate_to_string(&self) -> String {
         self.to_string()
+    }
+
+    /// method to change an rate instance's precision
+    pub fn change_precision(&mut self, precision: Precision) {
+        self.precision = precision
     }
 
 //    pub fn rate_to_str(&self) -> &str {
 //        self.to_string().as_str().as_ref()
 //    }
 
-    // todo change from returning f64 to returning Result<Rate, Error>
     pub fn periodic_rate(&self, num_periods: usize) -> Rate {
         Rate::new(((1.0 + self.rate as f64).powf(1.0 / num_periods as f64) - 1.0))
     }
