@@ -5,7 +5,6 @@ use finance_mod::cashflow;
 use finance_mod::value;
 use finance_mod::currency;
 use finance_mod::fin_ratios;
-//use crate::finance_mod::currency::CurrCode::USD;
 
 
 #[test]
@@ -62,11 +61,23 @@ fn test_values() {
 
 
 #[test]
-fn test_fin_ratios() {
+fn test_fin_ratios_roi() {
     let investment = value::Value::new(100.00, currency::CurrCode::USD);
     let sell_price = value::Value::new(150.00, currency::CurrCode::USD);
     let roi = fin_ratios::return_on_investment(&sell_price, &investment);
     let new_prec = rates::Rate{rate: roi.rate, precision: rates::Precision::One};
     println!("The ROI for investing at $100 and selling at $150 = {}", new_prec);
     assert_eq!(roi.rate, 0.5)
+}
+
+#[test]
+fn test_fin_ratios_coe() {
+    let pay = value::Value::new(1.00, currency::CurrCode::USD);
+    let share_price = value::Value::new(10.00, currency::CurrCode::USD);
+    let apprec = rates::Rate::new(0.05);
+    let coe = fin_ratios::cost_of_equity(&pay, &share_price, &apprec);
+
+    println!("The COE is: {}", &coe.rate_to_string());
+
+    assert_eq!(coe.rate_to_string(), "0.15%")
 }

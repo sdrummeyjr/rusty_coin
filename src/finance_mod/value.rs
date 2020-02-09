@@ -2,7 +2,7 @@ use crate::rates::Rate;
 use crate::currency::{CurrCode, Currency};
 use std::fmt;
 use std::error::Error;
-//use crate::finance_mod::currency::CurrCode;
+use std::ops::Deref;
 
 
 #[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
@@ -35,10 +35,14 @@ impl Value {
 //    } // todo return a result
 
 
+    pub fn value_to_string(&self) -> String {
+        self.to_string()
+    }
 
-
-    // method that takes a value and parses it into a string
-    pub fn value_parse_to_str() {} // todo return a result
+    // method that takes a value and parses it into a str
+//    pub fn value_to_str(&self) -> &str {
+//        self.to_string().as_str().as_ref()
+//    } // todo return a result
 
 
 

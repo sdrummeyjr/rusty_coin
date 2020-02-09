@@ -27,7 +27,7 @@ pub fn req_rate_of_return() {
 
 /// Cost of Equity
 /// The return a company requires to decide if an investment meets capital return requirements
-pub fn cost_of_equity() {
-
+pub fn cost_of_equity(payout: &Value, share_price: &Value, rate_of_appr: &Rate) -> Rate {
+    Rate::new((payout.amount / share_price.amount) + rate_of_appr.rate)
 }
 

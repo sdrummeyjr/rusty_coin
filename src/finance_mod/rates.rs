@@ -1,11 +1,7 @@
 use crate::value::Value;
 use std::fmt;
 use std::fmt::Error;
-//use std::f64::;
-//use math::
-//use crate::finance_mod::value::Value;
 
-// https://doc.rust-lang.org/std/default/trait.Default.html
 
 #[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
 pub enum Precision {  // todo change to precision
@@ -14,18 +10,6 @@ pub enum Precision {  // todo change to precision
     Three,
     Four,
     Five,
-}
-
-impl Precision {
-    fn set_round(&self) -> &str {
-        match self {
-            Precision::One => "{:.1}",
-            Precision::Two => "{:.2}",
-            Precision::Three => "{:.3}",
-            Precision::Four => "{:.4}",
-            Precision::Five => "{:.5}",
-        }
-    }
 }
 
 
@@ -54,6 +38,14 @@ impl Rate {
             precision: Precision::Two
         }
     }
+
+    pub fn rate_to_string(&self) -> String {
+        self.to_string()
+    }
+
+//    pub fn rate_to_str(&self) -> &str {
+//        self.to_string().as_str().as_ref()
+//    }
 
     // todo change from returning f64 to returning Result<Rate, Error>
     pub fn periodic_rate(&self, num_periods: usize) -> Rate {
@@ -85,27 +77,4 @@ impl Rate {
 
 
 }
-
-
-//
-//    fn get_round(r: &Rate) -> Precision {
-//        match r.precision {
-//            1 => Precision::One,
-//            2 => Precision::Two,
-//            3 => Precision::Three,
-//            4 => Precision::Four,
-//            5 => Precision::Five,
-//            _ => panic!("Pick 1 - 5")
-//        }
-//    }
-
-//    fn round(&self, r: &Rate) -> f64 {
-//        match self {
-//            Precision::One => r.rate.round(1),
-//            Precision::Two => "{:.2}",
-//            Precision::Three => "{:.3}",
-//            Precision::Four => "{:.4}",
-//            Precision::Five => "{:.5}",
-//        }
-//    }
 
