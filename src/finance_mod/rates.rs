@@ -39,7 +39,6 @@ impl Rate {
         }
     }
 
-
     pub fn rate_to_string(&self) -> String {
         self.to_string()
     }
@@ -49,9 +48,10 @@ impl Rate {
         self.precision = precision
     }
 
-//    pub fn rate_to_str(&self) -> &str {
-//        self.to_string().as_str().as_ref()
-//    }
+    // involves leaking the memory of the String...use with caution
+    pub fn rate_to_str(&self) -> &'static str {
+        Box::leak(self.to_string().into_boxed_str())
+    }
 
     pub fn periodic_rate(&self, num_periods: usize) -> Rate {
         Rate::new(((1.0 + self.rate as f64).powf(1.0 / num_periods as f64) - 1.0))

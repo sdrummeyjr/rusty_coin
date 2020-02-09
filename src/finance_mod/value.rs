@@ -39,10 +39,10 @@ impl Value {
         self.to_string()
     }
 
-    // method that takes a value and parses it into a str
-//    pub fn value_to_str(&self) -> &str {
-//        self.to_string().as_str().as_ref()
-//    } // todo return a result
+    // involves leaking the memory of the String...use with caution
+    pub fn value_to_str(&self) -> &'static str {
+        Box::leak(self.to_string().into_boxed_str())
+    }
 
 
 

@@ -112,3 +112,12 @@ fn test_ret_on_assets() {
     println!("ROA = {}", &roa);
     assert_eq!(roa.rate_to_string(), "3.33%")
 }
+
+
+#[test]
+fn test_to_str() {
+    let r = Rate::new(0.05);
+    let t = "0.05%";
+    println!("{}", r.rate_to_str());
+    assert_eq!(r.rate_to_str(), t)
+}
