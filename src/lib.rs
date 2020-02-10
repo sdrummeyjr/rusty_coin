@@ -7,6 +7,8 @@ use finance_mod::currency;
 use finance_mod::fin_ratios;
 use crate::finance_mod::rates::{Rate, Precision};
 use crate::finance_mod::fin_ratios::{total_avg_assets, return_on_assets};
+use crate::finance_mod::value::Value;
+use crate::finance_mod::currency::CurrCode;
 
 
 #[test]
@@ -94,7 +96,7 @@ fn test_change_prec() {
 #[test]
 fn test_tot_avg_assets() {
     let a = value::Value::new(20.00, currency::CurrCode::USD);
-    let b = value::Value::new(40.00, currency::CurrCode::USD);
+    let b = value::Value::new(40.00, currency::CurrCode::GBP);
     let v = vec![&a, &b];
     let taa = total_avg_assets(v, currency::CurrCode::USD);
     println!("{}", &taa);
@@ -113,11 +115,21 @@ fn test_ret_on_assets() {
     assert_eq!(roa.rate_to_string(), "3.33%")
 }
 
-
 #[test]
 fn test_to_str() {
     let r = Rate::new(0.05);
     let t = "0.05%";
     println!("{}", r.rate_to_str());
     assert_eq!(r.rate_to_str(), t)
+}
+
+#[test]
+fn test_val_vec() {
+    let v = vec![5.0, 10.0, 9 as f64];
+    let vv = Value::new_vec(v, CurrCode::USD);
+    println!("{:#?}", vv);
+    let t_vv = vec![Value::new(5.0, CurrCode::USD),
+                    Value::new(10.0, CurrCode::USD),
+                    Value::new(9.0, CurrCode::USD)];
+    assert_eq!(vv, t_vv)
 }

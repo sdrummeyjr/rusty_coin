@@ -23,6 +23,10 @@ impl Value {
         Value{currency_code, amount }
     }
 
+    pub fn new_vec(vector_of_num: Vec<f64>, currency_code: CurrCode) -> Vec<Value> {
+        vector_of_num.iter().map(|f| Value::new(*f, currency_code)).collect()
+    }
+
     pub fn convert(&self, start_cur_amount: Value, conversion_rate: Rate) -> Value {
         Value::new(start_cur_amount.amount * conversion_rate.rate,
                    start_cur_amount.currency_code)
@@ -43,8 +47,5 @@ impl Value {
     pub fn value_to_str(&self) -> &'static str {
         Box::leak(self.to_string().into_boxed_str())
     }
-
-
-
 
 }

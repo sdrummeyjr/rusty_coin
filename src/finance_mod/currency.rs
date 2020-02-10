@@ -1,3 +1,5 @@
+use std::fmt;
+
 // SOURCE: https://www.xe.com/symbols.php
 
 // NOTE: The primary type is the CurrCode as it's required by value::Value. With the CurrCode, you
@@ -312,4 +314,10 @@ pub enum CurrCode {
     VND,
     YER,
     ZWD,
+}
+
+impl fmt::Display for CurrCode {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self)
+    }
 }

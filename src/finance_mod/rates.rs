@@ -10,6 +10,7 @@ pub enum Precision {  // todo change to precision
     Three,
     Four,
     Five,
+    None,
 }
 
 
@@ -27,6 +28,7 @@ impl fmt::Display for Rate {
             Precision::Three => write!(f, "{:.3}%", self.rate),
             Precision::Four => write!(f, "{:.4}%", self.rate),
             Precision::Five => write!(f, "{:.5}%", self.rate),
+            Precision::None => write!(f, "{}%", self.rate)
         }
     }
 }
@@ -37,6 +39,10 @@ impl Rate {
             rate: new_rate,
             precision: Precision::Two
         }
+    }
+
+    pub fn new_vec(vector_of_num: Vec<f64>) -> Vec<Rate> {
+        vector_of_num.iter().map(|f| Rate::new(*f)).collect()
     }
 
     pub fn rate_to_string(&self) -> String {
@@ -80,6 +86,4 @@ impl Rate {
 
 //    pub fn internal_rate_of_return()
 
-
 }
-
