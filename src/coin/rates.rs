@@ -80,10 +80,10 @@ impl Rate {
             ((self.rate + 1.0).powf(1.0 / num_periods as f64) - 1.0))
     }
 
-    pub fn exchange_rate(&self, start_cur_amount: Value, new_cur_amount: Value) -> Rate {
-        Rate::new(start_cur_amount.amount / new_cur_amount.amount)
-    }
-
 //    pub fn internal_rate_of_return()
 
+}
+
+pub fn exchange_rate(start_cur_amount: Value, new_cur_amount: Value) -> Rate {
+    Rate::new(start_cur_amount.amount / new_cur_amount.amount)
 }

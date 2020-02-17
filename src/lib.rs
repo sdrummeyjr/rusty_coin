@@ -5,9 +5,9 @@ use coin::cashflow;
 use coin::value;
 use coin::currency;
 use coin::fin_ratios;
-use crate::coin::rates::{Rate, Precision};
+use crate::coin::rates::{Rate, Precision, exchange_rate};
 use crate::coin::fin_ratios::{total_avg_assets, return_on_assets};
-use crate::coin::value::Value;
+use crate::coin::value::{Value, combine_and_convert};
 use crate::coin::currency::CurrCode;
 
 
@@ -138,4 +138,21 @@ fn test_val_vec() {
                     Value::new(10.0, CurrCode::USD),
                     Value::new(9.0, CurrCode::USD)];
     assert_eq!(vv, t_vv)
+}
+
+#[test]
+fn test_conversions() {
+    // test exchange_rate and convert methods and the convert_vec func through the
+    // combine_and_convert function
+    let v_one = Value::new(10.00, CurrCode::USD);
+    let v_two = Value::new(12.00, CurrCode::GBP);
+    let er = exchange_rate(v_one, v_two);
+    println!("Exchange Rate: {}", &er);
+
+    let us_vec = Value::new_vec(vec![5.00, 10.00, 20.00], CurrCode::USD);
+    let gb_vec = Value::new_vec(vec![10.00, 20.00, 6.00], CurrCode::GBP);
+    let cc = combine_and_convert(&gb_vec, &us_vec, er);
+    for c in cc {
+        println!("{}", c)
+    }
 }

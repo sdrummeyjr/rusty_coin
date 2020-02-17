@@ -1,5 +1,5 @@
 use crate::rates::Rate;
-use crate::currency::{CurrCode, Currency};
+use crate::currency::{CurrCode, Currency, curr_parity};
 use std::fmt;
 use std::error::Error;
 use std::ops::Deref;
@@ -27,9 +27,9 @@ impl Value {
         vector_of_num.iter().map(|f| Value::new(*f, currency_code)).collect()
     }
 
-    pub fn convert(&self, start_cur_amount: Value, conversion_rate: Rate) -> Value {
-        Value::new(start_cur_amount.amount * conversion_rate.rate,
-                   start_cur_amount.currency_code)
+    pub fn convert(&self, conversion_rate: Rate, new_curr_code: CurrCode) -> Value {
+        Value::new(self.amount * conversion_rate.rate,
+                   new_curr_code)
     }
 
     // method that takes a string and parses it into a value
@@ -48,4 +48,17 @@ impl Value {
         Box::leak(self.to_string().into_boxed_str())
     }
 
+}
+
+/// Function that takes a vector to convert to new currency
+pub fn convert_vec(values: &Vec<Value>, new_curr: CurrCode, exchange_rate: Rate) -> Vec<Value> {
+    values.iter().map(|v| v.convert(exchange_rate, new_curr)).collect()
+}
+
+/// Function that takes two vectors of values to be combined, while converting one currency (vec_to)
+/// to the other (vec_from)
+pub fn combine_and_convert(vec_to: &Vec<Value>, vec_from: &Vec<Value>, exchange_rate: Rate) -> Vec<Value> {
+    let new_curr_code = curr_parity(&vec_to);
+    let new_val_vec: Vec<Value> = convert_vec(vec_from, new_curr_code, exchange_rate);
+    vec_to.iter().copied().chain(new_val_vec.into_iter()).collect::<Vec<Value>>()
 }
