@@ -1,9 +1,28 @@
 use std::fmt;
+use crate::coin::value::Value;
+use std::collections::HashSet;
 
 // SOURCE: https://www.xe.com/symbols.php
 
 // NOTE: The primary type is the CurrCode as it's required by value::Value. With the CurrCode, you
 // can then use the currency() method to obtain the Currency information for the respective code
+
+/// Function that checks a vector of values to ensure they're all of the same currency code.
+/// If not the same, then the program panics. If need to perform a calculation across multiple
+/// currency codes, then the user should perform a conversion prior to creating the vec to be
+/// passed into a financial calculation.
+pub fn curr_parity(values: &Vec<Value>) -> CurrCode {
+    let mut hs = HashSet::new();
+    hs.extend(&mut values.iter().map(|curr| curr.currency_code));
+    match hs.len() {
+        0 => panic!("Enforcing currency parity...No currency code"),
+        1 => {
+            let mut c: Vec<CurrCode> = hs.drain().collect();
+            c.pop().unwrap()
+        },
+        _ => panic!("Enforcing currency parity...Requires one type of currency but received more.")
+    }
+}
 
 #[derive(Debug, PartialOrd, PartialEq)]
 pub struct Currency {
@@ -203,7 +222,7 @@ pub enum CurrType {
     Dong,
 }
 
-#[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialOrd, PartialEq, Hash, Eq)]
 pub enum CurrCode {
     ALL,
     AFN,
@@ -321,3 +340,5 @@ impl fmt::Display for CurrCode {
         write!(f, "{}", self)
     }
 }
+
+

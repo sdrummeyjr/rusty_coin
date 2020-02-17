@@ -1,8 +1,10 @@
 use crate::rates::Rate;
+use crate::coin::value::Value;
+use std::collections::HashSet;
+use crate::coin::currency::{Currency, CurrCode, curr_parity};
 
 /// Cash Flow
 /// Functions for calculation cash flow-related financial and accounting analysis
-
 
 /// Returns the difference between the present value of cash inflows and the present value of cash
 /// outflows over a period of time in the form of a f64. A positive NPV indicates that the projected
@@ -11,23 +13,25 @@ use crate::rates::Rate;
 /// Function takes a Rate (instantiated by rates::Rate). Should use the periodic_rate method of Rate
 /// to obtain the rate over the period of time/number of payments.
 ///
-pub fn net_present_value(rate: Rate, values: Vec<f64>) -> f64 {
-    let npv: f64 = values.iter()
+pub fn net_present_value(rate: Rate, values: &Vec<Value>) -> Value {
+    // Check for currency code parity before performing calc
+    let mut curr_code = curr_parity(&values);
+    Value::new( values.iter()
         .enumerate()
-        .map(|(ind, val)| val / (1.0 + rate.rate)
+        .map(|(ind, val)| val.amount / (1.0 + rate.rate)
             .powf(1.0 + ind as f64))
-        .sum();
-    npv
+        .sum(), curr_code)
 }
 
-pub fn discounted_net_present_value(rate: Rate, values: Vec<f64>) -> f64 {
-    let dnpv: f64 = values.iter()
+pub fn discounted_net_present_value(rate: Rate, values: &Vec<Value>) -> Value {
+    // Check for currency code parity before performing calc
+    let mut curr_code = curr_parity(&values);
+    Value::new(values.iter()
         .enumerate()
-        .map(|(ind, val)| val * -(ind as f64) * (1.0 + rate.rate)
+        .map(|(ind, val)| val.amount * -(ind as f64) * (1.0 + rate.rate)
             .powf(ind as f64 - 1.0) / (1.0 + rate.rate)
             .powf((2.0 * ind as f64)))
-        .sum();
-    dnpv
+        .sum(), curr_code)
 }
 
 //pub fn internal_rate_of_return(values: Vec<f64>, rate_est: Rate) {

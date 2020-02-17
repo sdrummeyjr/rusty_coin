@@ -1,14 +1,14 @@
-mod finance_mod;
+mod coin;
 
-use finance_mod::rates;
-use finance_mod::cashflow;
-use finance_mod::value;
-use finance_mod::currency;
-use finance_mod::fin_ratios;
-use crate::finance_mod::rates::{Rate, Precision};
-use crate::finance_mod::fin_ratios::{total_avg_assets, return_on_assets};
-use crate::finance_mod::value::Value;
-use crate::finance_mod::currency::CurrCode;
+use coin::rates;
+use coin::cashflow;
+use coin::value;
+use coin::currency;
+use coin::fin_ratios;
+use crate::coin::rates::{Rate, Precision};
+use crate::coin::fin_ratios::{total_avg_assets, return_on_assets};
+use crate::coin::value::Value;
+use crate::coin::currency::CurrCode;
 
 
 #[test]
@@ -37,9 +37,15 @@ fn test_currencies() {
 #[test]
 fn test_npv() {
     let rate = rates::Rate{rate: 5.0, precision: rates::Precision::One};
-    let cash_flow = vec![2.0, 3.0, 5.0, 6.0];
-    println!("{}", &cashflow::net_present_value(rates::Rate{rate: 5.0, precision: rates::Precision::One}, vec![2.0, 3.0, 5.0, 6.0]));
-    assert_eq!(cashflow::net_present_value(rate, cash_flow),  0.4444444444444444)
+    let vec_of_f = vec![2.0, 3.0, 5.0, 6.0];
+    let mut cash_flow = Value::new_vec(vec_of_f, currency::CurrCode::USD);
+//    cash_flow.push(Value::new(1.0, CurrCode::GBP));
+//    println!("{:#?}", &cash_flow);
+    let npv = cashflow::net_present_value(rate, &cash_flow);
+//    println!("{}", &npv);
+    let t_val = Value::new(0.4444444444444444, currency::CurrCode::USD);
+//    assert_eq!(cashflow::net_present_value(rate, cash_flow),  t_val)
+    assert_eq!(npv,  t_val)
 }
 
 #[test]

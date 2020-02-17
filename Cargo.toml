@@ -1,6 +1,6 @@
 [package]
 name = "rusty_coin"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["sdrummeyjr <33046696+sdrummeyjr@users.noreply.github.com>"]
 edition = "2018"
 description = "Rust library containing a collection of financial functions and calculations."
