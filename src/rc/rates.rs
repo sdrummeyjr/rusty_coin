@@ -45,6 +45,10 @@ impl Rate {
         vector_of_num.iter().map(|f| Rate::new(*f)).collect()
     }
 
+    pub fn exchange_rate(start_cur_amount: Value, new_cur_amount: Value) -> Rate {
+        Rate::new(start_cur_amount.amount / new_cur_amount.amount)
+    }
+
     pub fn rate_to_string(&self) -> String {
         self.to_string()
     }
@@ -84,6 +88,3 @@ impl Rate {
 
 }
 
-pub fn exchange_rate(start_cur_amount: Value, new_cur_amount: Value) -> Rate {
-    Rate::new(start_cur_amount.amount / new_cur_amount.amount)
-}

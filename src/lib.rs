@@ -1,14 +1,14 @@
-mod coin;
+mod rc;
 
-use coin::rates;
-use coin::cashflow;
-use coin::value;
-use coin::currency;
-use coin::fin_ratios;
-use crate::coin::rates::{Rate, Precision, exchange_rate};
-use crate::coin::fin_ratios::{total_avg_assets, return_on_assets};
-use crate::coin::value::{Value, combine_and_convert};
-use crate::coin::currency::CurrCode;
+use rc::rates;
+use rc::cashflow;
+use rc::value;
+use rc::currency;
+use rc::fin_ratios;
+use crate::rc::rates::{Rate, Precision};
+use crate::rc::fin_ratios::{total_avg_assets, return_on_assets};
+use crate::rc::value::{Value, combine_and_convert};
+use crate::rc::currency::CurrCode;
 
 
 #[test]
@@ -146,7 +146,7 @@ fn test_conversions() {
     // combine_and_convert function
     let v_one = Value::new(10.00, CurrCode::USD);
     let v_two = Value::new(12.00, CurrCode::GBP);
-    let er = exchange_rate(v_one, v_two);
+    let er = Rate::exchange_rate(v_one, v_two);
     println!("Exchange Rate: {}", &er);
 
     let us_vec = Value::new_vec(vec![5.00, 10.00, 20.00], CurrCode::USD);

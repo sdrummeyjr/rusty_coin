@@ -1,5 +1,5 @@
 use std::fmt;
-use crate::coin::value::Value;
+use crate::rc::value::Value;
 use std::collections::HashSet;
 
 // SOURCE: https://www.xe.com/symbols.php

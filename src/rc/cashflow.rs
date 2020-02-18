@@ -1,7 +1,7 @@
 use crate::rates::Rate;
-use crate::coin::value::Value;
+use crate::rc::value::Value;
 use std::collections::HashSet;
-use crate::coin::currency::{Currency, CurrCode, curr_parity};
+use crate::rc::currency::{Currency, CurrCode, curr_parity};
 
 /// Cash Flow
 /// Functions for calculation cash flow-related financial and accounting analysis
