@@ -1,10 +1,11 @@
-mod rc;
+pub mod rc;
 
-use rc::rates;
-use rc::cashflow;
-use rc::value;
-use rc::currency;
-use rc::fin_ratios;
+pub use rc::rates;
+pub use rc::cashflow;
+pub use rc::value;
+pub use rc::currency;
+pub use rc::fin_ratios;
+
 use crate::rc::rates::{Rate, Precision};
 use crate::rc::fin_ratios::{total_avg_assets, return_on_assets};
 use crate::rc::value::{Value, combine_and_convert};
@@ -155,4 +156,18 @@ fn test_conversions() {
     for c in cc {
         println!("{}", c)
     }
+}
+
+#[test]
+fn test_add_value() {
+    let v_one = Value::new(10.00, CurrCode::USD);
+    let v_two = Value::new(20.00, CurrCode::USD);
+//    let v_three = Value::new(20.00, CurrCode::GBP);
+    println!("{}", v_one + v_two);
+    assert_eq!(v_one + v_two, Value::new(30.00, CurrCode::USD));
+//    assert_ne!(v_one + v_three, v_one + v_two);
+
+    let mut v_four = Value::new(20.00, CurrCode::USD);
+    println!("{}", v_four + Value::new(10.00, CurrCode::USD));
+
 }

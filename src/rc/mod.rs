@@ -4,3 +4,4 @@ pub mod cashflow;
 pub mod value;
 pub mod currency;
 pub mod fin_ratios;
+pub mod errors;

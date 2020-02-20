@@ -2,7 +2,7 @@ use crate::rates::Rate;
 use crate::currency::{CurrCode, Currency, curr_parity};
 use std::fmt;
 use std::error::Error;
-use std::ops::Deref;
+use std::ops::{Deref, Add, AddAssign};
 
 
 #[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
@@ -61,4 +61,32 @@ pub fn combine_and_convert(vec_to: &Vec<Value>, vec_from: &Vec<Value>, exchange_
     let new_curr_code = curr_parity(&vec_to);
     let new_val_vec: Vec<Value> = convert_vec(vec_from, new_curr_code, exchange_rate);
     vec_to.iter().copied().chain(new_val_vec.into_iter()).collect::<Vec<Value>>()
+}
+
+
+impl Add for Value {
+    type Output = Self;
+    fn add(self, other: Self) -> Self::Output {
+        if self.currency_code == other.currency_code {
+            Self {
+                amount: self.amount + other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+impl AddAssign for Value {
+    fn add_assign(&mut self, other: Self) {
+        if self.currency_code == other.currency_code {
+            *self = Self {
+                amount: self.amount + other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
 }
