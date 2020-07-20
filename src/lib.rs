@@ -1,5 +1,10 @@
 pub mod rc;
 
+#[allow(unused_mut)]
+#[allow(unused_imports)]
+#[allow(unused_parens)]
+#[allow(dead_code)]
+
 pub use rc::rates;
 pub use rc::cashflow;
 pub use rc::value;

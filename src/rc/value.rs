@@ -2,7 +2,7 @@ use crate::rates::Rate;
 use crate::currency::{CurrCode, Currency, curr_parity};
 use std::fmt;
 use std::error::Error;
-use std::ops::{Deref, Add, AddAssign};
+use std::ops::{Deref, Add, AddAssign, SubAssign, Sub, Mul, MulAssign, Div, DivAssign};
 
 
 #[derive(Copy, Clone, Debug, PartialOrd, PartialEq)]
@@ -83,6 +83,90 @@ impl AddAssign for Value {
         if self.currency_code == other.currency_code {
             *self = Self {
                 amount: self.amount + other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+
+impl Sub for Value {
+    type Output = Self;
+    fn sub(self, other: Self) -> Self::Output {
+        if self.currency_code == other.currency_code {
+            Self {
+                amount: self.amount - other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+impl SubAssign for Value {
+    fn sub_assign(&mut self, other: Self) {
+        if self.currency_code == other.currency_code {
+            *self = Self {
+                amount: self.amount - other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+
+impl Mul for Value {
+    type Output = Self;
+    fn mul(self, other: Self) -> Self::Output {
+        if self.currency_code == other.currency_code {
+            Self {
+                amount: self.amount * other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+impl MulAssign for Value {
+    fn mul_assign(&mut self, other: Self) {
+        if self.currency_code == other.currency_code {
+            *self = Self {
+                amount: self.amount * other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+
+impl Div for Value {
+    type Output = Self;
+    fn div(self, other: Self) -> Self::Output {
+        if self.currency_code == other.currency_code {
+            Self {
+                amount: self.amount / other.amount,
+                currency_code: self.currency_code
+            }
+        } else {
+            panic!("No currency parity")  // todo - improve error handling
+        }
+    }
+}
+
+impl DivAssign for Value {
+    fn div_assign(&mut self, other: Self) {
+        if self.currency_code == other.currency_code {
+            *self = Self {
+                amount: self.amount / other.amount,
                 currency_code: self.currency_code
             }
         } else {
