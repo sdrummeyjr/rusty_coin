@@ -1,3 +1,4 @@
+#![macro_use]
 use crate::rates::Rate;
 use crate::currency::{CurrCode, Currency, curr_parity};
 use std::fmt;
@@ -61,6 +62,16 @@ pub fn combine_and_convert(vec_to: &Vec<Value>, vec_from: &Vec<Value>, exchange_
     let new_curr_code = curr_parity(&vec_to);
     let new_val_vec: Vec<Value> = convert_vec(vec_from, new_curr_code, exchange_rate);
     vec_to.iter().copied().chain(new_val_vec.into_iter()).collect::<Vec<Value>>()
+}
+
+
+macro_rules! value {
+    ($cur:expr, $amount:expr) => {
+        Value::new(
+            $cur,
+            $amount
+        )
+    };
 }
 
 

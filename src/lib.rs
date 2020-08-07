@@ -1,9 +1,11 @@
+#[macro_use]
 pub mod rc;
 
 #[allow(unused_mut)]
 #[allow(unused_imports)]
 #[allow(unused_parens)]
 #[allow(dead_code)]
+
 
 pub use rc::rates;
 pub use rc::cashflow;
@@ -175,4 +177,14 @@ fn test_add_value() {
     let mut v_four = Value::new(20.00, CurrCode::USD);
     println!("{}", v_four + Value::new(10.00, CurrCode::USD));
 
+}
+
+#[test]
+fn test_value_macro() {
+    let num = 10.00;
+    let cur = CurrCode::USD;
+    let mac = value!(num, cur);
+    println!("Test Value Macro: {}", &mac);
+    let struct_v = Value::new(num, cur);
+    assert_eq!(mac, struct_v);
 }
